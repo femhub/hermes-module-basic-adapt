@@ -340,6 +340,14 @@ bool ModuleBasicAdapt::adapt(double &rel_est_rel) {
   bool finished = false;
   bool success;
   int n_step = 1;
+
+  // FIXME: This hack is needed so that PETSc does not get finalized
+  //  prematurely (it cannot be reused after all created PETSc objects
+  //  have been destroyed)
+  SparseMatrix *persistent_dummy_matrix;
+  if (this->matrix_solver == SOLVER_PETSC)
+    persistent_dummy_matrix = create_matrix(this->matrix_solver);
+
   this->prepare_for_adaptivity();
   while (!finished) {
     success = adaptivity_step(finished, rel_est_rel);
@@ -352,5 +360,9 @@ bool ModuleBasicAdapt::adapt(double &rel_est_rel) {
       return success;
     }
   }
+
+  if (this->matrix_solver == SOLVER_PETSC)
+    delete persistent_dummy_matrix;
+
   return success;
 }

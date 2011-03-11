@@ -89,8 +89,8 @@ int main(int argc, char* argv[])
   // Show gradient of reference solution.
   sprintf(title, "Gradient, step %d", BA.get_num_adapt_steps_done());
   ScalarView gradview(title, new WinGeom(445, 0, 440, 350));
-  MagFilter grad(Hermes::Tuple<MeshFunction *>(&sln_ref, &sln_ref), 
-                 Hermes::Tuple<int>(H2D_FN_DX, H2D_FN_DY));
+  MagFilter grad(Hermes::vector<MeshFunction *>(&sln_ref, &sln_ref), 
+                 Hermes::vector<int>(H2D_FN_DX, H2D_FN_DY));
   gradview.show_mesh(false);
   gradview.show(&grad);
 
