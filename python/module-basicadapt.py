@@ -1,7 +1,7 @@
 # If you have installed the Hermes wrappers and the module wrapper into
 # directories which are not on default Python path, you must point to them here:
 import sys
-sys.path.append("/home/milan/myhermes/lib/python")
+sys.path.append("/home/pavel/build/hermes/lib/python")
 
 from hermes2d.hermes2d import Linearizer
 from hermes2d.plot import sln2png
