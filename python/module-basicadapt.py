@@ -62,7 +62,7 @@ def main():
     print "Adaptivity time (total):", e.get_adaptivity_time_total()
     print "Saving reference solution to 'solution.png'"
     sln2png(sln, "ref_solution.png")
-
+    raw_input()
 
 
 if __name__ == "__main__":
