@@ -27,9 +27,9 @@ Build the Module
 ----------------
 
 For this, install the Hermes library first - only the 2D version 
-without examples and benchmarks is enough. Change dir to your local 
-Hermes repository, for example /home/pavel/repos/hermes/. Add to your 
-CMake.vars file the lines
+without tutorial, examples and benchmarks is enough. Change dir to 
+your local Hermes repository, for example /home/pavel/repos/hermes/. 
+Add to your CMake.vars file the lines
 
 set(WITH_H1D NO)
 set(WITH_H3D NO)
@@ -62,6 +62,10 @@ Then type::
     cmake .
     make
 
+Please note that this module is dependent at the source level on module Basic.
+Source code of module Basic is located in the directory src/hermes_basic and 
+should be kept up-to-date with the development of that module.
+
 Run the Module on C++ Level
 ---------------------------
 
@@ -77,12 +81,26 @@ change the parameters there at your will.
 Run the Module on Python Level
 ------------------------------
 
-Python wrappers are located in the directory python/ and they allow you 
-to call the module from Python as follows::
+If you have uncommented the line 
+
+#  set(PYTHON_INSTALL_PATH   USE_SYSTEM_PYTHON_DIRECTORY)
+
+in the file CMake.vars in your local Hermes repository, 
+then you may delete the lines
+::
+
+    import sys
+    sys.path.append("/home/pavel/build/hermes/lib/python")
+
+in the file module-basic.py. Otherwise, adjust the line to point to the 
+location of Hermes Python wrappers which must be compatible with your 
+definition of HERMES_ROOT above.
+
+Then run the module by typing::
 
     python module-basicadapt.py
 
-The file module-basic.py contains a set of parameters analogous to those
+The file module-basicadapt.py contains a set of parameters analogous to those
 which on C++ level are in the file model.cfg. The user can change these
 parameters arbitrarily. 
 

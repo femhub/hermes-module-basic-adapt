@@ -1,7 +1,7 @@
 #define HERMES_REPORT_INFO
 #define HERMES_REPORT_FILE "application.log"
 #include "hermes2d.h"
-#include "../basic/basic.h"
+#include "hermes_basic/basic.h"
 
 // This class adds adaptivity to the module Basic.
 //

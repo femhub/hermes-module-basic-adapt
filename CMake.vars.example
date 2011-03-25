@@ -1,0 +1,50 @@
+# This is a sample CMake.vars file for the Hermes module 'Basic'.
+#
+# It contains options that let you customize building the module on your 
+# system. Options set here override the default ones set in CMakeLists.txt.
+#
+# NOTE: when specifying paths, always use absolute paths (such as 
+# "/home/pavel/something" instead of "~/something").
+
+# Point to the directory where you installed the Hermes library.
+set(HERMES_ROOT /home/pavel/build/hermes)
+
+# Enable the C++ version of your module:
+set(WITH_CXX      YES)
+# Enable the module's Python wrapper. 
+set(WITH_PYTHON   YES)
+# If the required Python wrappers of the Hermes2D library have not been
+# found in the standard directories (${HERMES_ROOT}/lib/python/hermes2d, 
+# Python's system directory for modules and some others), you will have
+# to point to the directory containing the file   'hermes2d.pxd'   here
+#
+#   set(HERMES_PYTHON_WRAPPERS_DIR  <home directory of hermes2d.pxd>
+
+# Enable the JavaScript version of your module:
+set(WITH_UI       NO)
+
+
+#------------------------   INSTALLATION   --------------------------
+
+# Installation directory for Python wrappers (OPTIONAL)
+#
+# Files needed to be imported into your module's Python script may be
+# installed into 
+#   PYTHON_INSTALL_PATH/hermes_modules
+# upon executing 'make install' (or 'sudo make install').
+# If not set, PYTHON_INSTALL_PATH will be initialized to the directory
+# where your Hermes Python wrappers have been placed.  Otherwise, the specified
+# destination directory will be used. As a third alternative, you may 
+# uncomment the following line to install the module into the default place 
+# where Python stores its modules:
+#
+#  set(PYTHON_INSTALL_PATH   USE_SYSTEM_PYTHON_DIRECTORY)
+#
+# Execute the following command to see where the files will come in this case:
+#
+#   python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"
+# 
+# Note that in the former two cases, you will probably have to point to the 
+# non-default destination directory at the beginning of your Python script, e.g.:
+#   import sys; sys.path.append("/home/pavel/build/hermes/lib/python")
+#

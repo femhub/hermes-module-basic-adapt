@@ -8,8 +8,8 @@
 #define HERMES_REPORT_ALL
 #define HERMES_REPORT_FILE "application.log"
 #include "hermes2d.h"
-#include "utils/disc.h"
-#include "basicadapt.h"
+#include "../utils/disc.h"
+#include "../basicadapt.h"
 
 using namespace RefinementSelectors;
 
@@ -54,11 +54,11 @@ int main(int argc, char* argv[])
 
   /*** READ DATA - MODEL-SPECIFIC ***/
 
-#include "read_model_data.cpp"
+#include "../read_model_data.cpp"
 
   /*** READ DATA - SPECIFIC FOR ADAPTIVITY ***/
 
-#include "read_adaptivity_data.cpp"
+#include "../read_adaptivity_data.cpp"
 
 
   /*** SOLVE THE PROBLEM ***/
@@ -78,21 +78,21 @@ int main(int argc, char* argv[])
   if (!success) error("Computation failed.");
 
   // Show reference solution.
-  char* title = new char[100];
-  sprintf(title, "Reference solution, step %d", BA.get_num_adapt_steps_done());
+  //char* title = new char[100];
+  //sprintf(title, "Reference solution, step %d", BA.get_num_adapt_steps_done());
   Solution sln_ref;
   BA.get_ref_solution(&sln_ref);
-  ScalarView view(title, new WinGeom(0, 0, 440, 350));
-  view.show_mesh(false);
-  view.show(&sln_ref);
+  //ScalarView view(title, new WinGeom(0, 0, 440, 350));
+  //view.show_mesh(false);
+  //view.show(&sln_ref);
 
   // Show gradient of reference solution.
-  sprintf(title, "Gradient, step %d", BA.get_num_adapt_steps_done());
-  ScalarView gradview(title, new WinGeom(445, 0, 440, 350));
-  MagFilter grad(Hermes::vector<MeshFunction *>(&sln_ref, &sln_ref), 
-                 Hermes::vector<int>(H2D_FN_DX, H2D_FN_DY));
-  gradview.show_mesh(false);
-  gradview.show(&grad);
+  //sprintf(title, "Gradient, step %d", BA.get_num_adapt_steps_done());
+  //ScalarView gradview(title, new WinGeom(445, 0, 440, 350));
+  //MagFilter grad(Hermes::vector<MeshFunction *>(&sln_ref, &sln_ref), 
+  //               Hermes::vector<int>(H2D_FN_DX, H2D_FN_DY));
+  //gradview.show_mesh(false);
+  //gradview.show(&grad);
 
   // Show reference space.
   BCTypes bctypes;
@@ -100,12 +100,30 @@ int main(int argc, char* argv[])
   H1Space space_ref(BA.get_ref_mesh(), &bctypes, &bcvalues, 1); // FIXME: this is a hack since constructor 
                                                                   // to Space needs some mesh. The mesh is not used.
   BA.get_ref_space(&space_ref);
-  sprintf(title, "Reference space, step %d", BA.get_num_adapt_steps_done());
-  OrderView oview(title, new WinGeom(890, 0, 440, 350));
-  oview.show(&space_ref);
+  //sprintf(title, "Reference space, step %d", BA.get_num_adapt_steps_done());
+  //OrderView oview(title, new WinGeom(890, 0, 440, 350));
+  //oview.show(&space_ref);
+
+  double x1 = 0.5;
+  double x2 = 0.5;
+  double val = sln_ref.get_pt_value(x1, x2);
+  info("Solution value at (%g, %g) is %g", x1, x2, val);
+
+  // Test
+  double correct_value = 0.49981;
+  info("Correct value at (%g, %g) is %g", x1, x2, correct_value);
+  if (fabs(val - correct_value) < 1e-4) {
+    printf("Success!\n");
+    return ERR_SUCCESS;
+  }
+  else {
+    printf("Failure!\n");
+    return ERR_FAILURE;
+  }
+
 
   // Wait.
-  View::wait();
+  //View::wait();
   
   return 1;
 }

@@ -1,9 +1,17 @@
+# If you have installed the Hermes wrappers and the module wrapper into
+# directories which are not on default Python path, you must point to them here:
 import sys
-sys.path.append("../../../")
+sys.path.append("/home/pavel/build/hermes/lib/python")
 
-from hermes2d.modules.basicadapt import ModuleBasicAdapt
 from hermes2d.hermes2d import Linearizer
 from hermes2d.plot import sln2png
+
+# If you ran 'make install' and appended 'sys.path' appropriately (see above),
+# you may import the module from anywhere by the following line:
+#from hermes_modules.basicadapt import ModuleBasicAdapt
+
+# In current module's directory, you may import the wrapper also locally:
+from basicadapt import ModuleBasicAdapt
 
 def main():
     e = ModuleBasicAdapt()
@@ -13,7 +21,9 @@ def main():
     assert mesh_ok is True
     e.set_initial_mesh_refinement(2)
     e.set_initial_poly_degree(4)
-    e.set_matrix_solver("umfpack")
+    solver_name = "umfpack"   # choose from amesos, aztecoo, mumps, petsc, superlu, umfpack
+    e.set_matrix_solver(solver_name)
+    print "Matrix solver:", solver_name
     e.set_material_markers([0])
     e.set_c1_array([1])
     e.set_c2_array([0])
@@ -52,7 +62,7 @@ def main():
     print "Adaptivity time (total):", e.get_adaptivity_time_total()
     print "Saving reference solution to 'solution.png'"
     sln2png(sln, "ref_solution.png")
-
+    raw_input()
 
 
 if __name__ == "__main__":
